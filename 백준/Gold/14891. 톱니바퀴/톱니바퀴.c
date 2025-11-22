@@ -2,11 +2,30 @@
 
 #include <stdio.h>
 
+int gear[4][8];
+
+// n=방향, m=기어 번호
+void rotate(int n, int m) {
+	int temp;
+	if (n == 1) {
+		temp = gear[m][7];
+		for (int i = 7; i > 0; i--)
+			gear[m][i] = gear[m][i - 1];
+		gear[m][0] = temp;
+	}
+	else if (n == -1) {
+		temp = gear[m][0];
+		for (int i = 0; i < 7; i++)
+			gear[m][i] = gear[m][i + 1];
+		gear[m][7] = temp;
+	}
+}
+
 int main()
 {
-	int gear[4][8];
 	int K, num, way;
 	int temp, sum = 0;
+	int result[3];
 
 	// 12시 방향부터 톱니바퀴 상태 입력
 	// N극 = 0, S극 = 1
@@ -20,266 +39,119 @@ int main()
 	scanf("%d", &K);
 
 	for (int i = 0; i < K; i++) {
-		// 기어와 방향 입력
 		scanf("%d %d", &num, &way);
 
-		// 1번 기어 움직일 때
+		// 다른 극인지 확인
+		for (int j = 0; j < 3; j++) {
+			if (gear[j][2] != gear[j+1][6])
+				result[j] = 1;
+			else
+				result[j] = 0;
+		}
+
+		// 1번 기어
 		if (num == 1) {
 			if (way == 1) {
-				// 1번 기어 시계방향
-				temp = gear[0][7];
-				for (int j = 7; j > 0; j--) {
-					gear[0][j] = gear[0][j - 1];
-				}
-				gear[0][0] = temp;
-
-				if (gear[0][3] != gear[1][6]) {
-					temp = gear[1][0];
-					for (int j = 0; j < 7; j++) {
-						gear[1][j] = gear[1][j + 1];
-					}
-					gear[1][7] = temp;
-
-					if (gear[1][1] != gear[2][6]) {
-						temp = gear[2][7];
-						for (int j = 7; j > 0; j--) {
-							gear[2][j] = gear[2][j - 1];
-						}
-						gear[2][0] = temp;
-
-						if (gear[2][3] != gear[3][6]) {
-							temp = gear[3][0];
-							for (int j = 0; j < 7; j++) {
-								gear[3][j] = gear[3][j + 1];
-							}
-							gear[3][7] = temp;
+				rotate(1, 0);
+				if (result[0] == 1) {
+					rotate(-1, 1);
+					if (result[1] == 1) {
+						rotate(1, 2);
+						if (result[2] == 1) {
+							rotate(-1, 3);
 						}
 					}
 				}
 			}
-			else if (way == -1) {
-				temp = gear[0][0];
-				for (int j = 0; j < 7; j++) {
-					gear[0][j] = gear[0][j + 1];
-				}
-				gear[0][7] = temp;
-
-				if (gear[0][1] != gear[1][6]) {
-					temp = gear[1][7];
-					for (int j = 7; j > 0; j--) {
-						gear[1][j] = gear[1][j - 1];
-					}
-					gear[1][0] = temp;
-
-					if (gear[1][3] != gear[2][6]) {
-						temp = gear[2][0];
-						for (int j = 0; j < 7; j++) {
-							gear[2][j] = gear[2][j + 1];
-						}
-						gear[2][7] = temp;
-
-						if (gear[2][1] != gear[3][6]) {
-							temp = gear[3][7];
-							for (int j = 7; j > 0; j--) {
-								gear[3][j] = gear[3][j - 1];
-							}
-							gear[3][0] = temp;
+			else {
+				rotate(-1, 0);
+				if (result[0] == 1) {
+					rotate(1, 1);
+					if (result[1] == 1) {
+						rotate(-1, 2);
+						if (result[2] == 1) {
+							rotate(1, 3);
 						}
 					}
 				}
 			}
 		}
-		// 2번 기어 움직일 때
+		// 2번 기어
 		else if (num == 2) {
 			if (way == 1) {
-				temp = gear[1][7];
-				for (int j = 7; j > 0; j--) {
-					gear[1][j] = gear[1][j - 1];
+				rotate(1, 1);
+				if (result[0] == 1) {
+					rotate(-1, 0);
 				}
-				gear[1][0] = temp;
-
-				if (gear[1][3] != gear[2][6]) {
-					temp = gear[2][0];
-					for (int j = 0; j < 7; j++) {
-						gear[2][j] = gear[2][j + 1];
+				if (result[1] == 1) {
+					rotate(-1, 2);
+					if (result[2] == 1) {
+						rotate(1, 3);
 					}
-					gear[2][7] = temp;
-
-					if (gear[2][1] != gear[3][6]) {
-						temp = gear[3][7];
-						for (int j = 7; j > 0; j--) {
-							gear[3][j] = gear[3][j - 1];
-						}
-						gear[3][0] = temp;
-					}
-				}
-
-				if (gear[1][7] != gear[0][2]) {
-					temp = gear[0][0];
-					for (int j = 0; j < 7; j++) {
-						gear[0][j] = gear[0][j + 1];
-					}
-					gear[0][7] = temp;
 				}
 			}
-			else if (way == -1) {
-				temp = gear[1][0];
-				for (int j = 0; j < 7; j++) {
-					gear[1][j] = gear[1][j + 1];
+			else {
+				rotate(-1, 1);
+				if (result[0] == 1) {
+					rotate(1, 0);
 				}
-				gear[1][7] = temp;
-
-				if (gear[1][1] != gear[2][6]) {
-					temp = gear[2][7];
-					for (int j = 7; j > 0; j--) {
-						gear[2][j] = gear[2][j - 1];
+				if (result[1] == 1) {
+					rotate(1, 2);
+					if (result[2] == 1) {
+						rotate(-1, 3);
 					}
-					gear[2][0] = temp;
-
-					if (gear[2][3] != gear[3][6]) {
-						temp = gear[3][0];
-						for (int j = 0; j < 7; j++) {
-							gear[3][j] = gear[3][j + 1];
-						}
-						gear[3][7] = temp;
-					}
-				}
-
-				if (gear[1][5] != gear[0][2]) {
-					temp = gear[0][7];
-					for (int j = 7; j > 0; j--) {
-						gear[0][j] = gear[0][j - 1];
-					}
-					gear[0][0] = temp;
 				}
 			}
-
 		}
-		// 3번 기어 움직일 때
+		// 3번 기어
 		else if (num == 3) {
 			if (way == 1) {
-				temp = gear[2][7];
-				for (int j = 7; j > 0; j--) {
-					gear[2][j] = gear[2][j - 1];
+				rotate(1, 2);
+				if (result[2] == 1) {
+					rotate(-1, 3);
 				}
-				gear[2][0] = temp;
-
-				if (gear[2][3] != gear[3][6]) {
-					temp = gear[3][0];
-					for (int j = 0; j < 7; j++) {
-						gear[3][j] = gear[3][j + 1];
-					}
-					gear[3][7] = temp;
-				}
-
-				if (gear[2][7] != gear[1][2]) {
-					temp = gear[1][0];
-					for (int j = 0; j < 7; j++) {
-						gear[1][j] = gear[1][j + 1];
-					}
-					gear[1][7] = temp;
-
-					if (gear[1][5] != gear[0][2]) {
-						temp = gear[0][7];
-						for (int j = 7; j > 0; j--) {
-							gear[0][j] = gear[0][j - 1];
-						}
-						gear[0][0] = temp;
+				if (result[1] == 1) {
+					rotate(-1, 1);
+					if (result[0] == 1) {
+						rotate(1, 0);
 					}
 				}
 			}
-			else if (way == -1) {
-				temp = gear[2][0];
-				for (int j = 0; j < 7; j++) {
-					gear[2][j] = gear[2][j + 1];
+			else {
+				rotate(-1, 2);
+				if (result[2] == 1) {
+					rotate(1, 3);
 				}
-				gear[2][7] = temp;
-
-				if (gear[2][1] != gear[3][6]) {
-					temp = gear[3][7];
-					for (int j = 7; j > 0; j--) {
-						gear[3][j] = gear[3][j - 1];
-					}
-					gear[3][0] = temp;
-				}
-
-				if (gear[2][5] != gear[1][2]) {
-					temp = gear[1][7];
-					for (int j = 7; j > 0; j--) {
-						gear[1][j] = gear[1][j - 1];
-					}
-					gear[1][0] = temp;
-
-					if (gear[1][7] != gear[0][2]) {
-						temp = gear[0][0];
-						for (int j = 0; j < 7; j++) {
-							gear[0][j] = gear[0][j + 1];
-						}
-						gear[0][7] = temp;
+				if (result[1] == 1) {
+					rotate(1, 1);
+					if (result[0] == 1) {
+						rotate(-1, 0);
 					}
 				}
 			}
 		}
-		// 4번 기어 움직일 때
+		// 4번 기어
 		else if (num == 4) {
 			if (way == 1) {
-				temp = gear[3][7];
-				for (int j = 7; j > 0; j--) {
-					gear[3][j] = gear[3][j - 1];
-				}
-				gear[3][0] = temp;
-
-				if (gear[3][7] != gear[2][2]) {
-					temp = gear[2][0];
-					for (int j = 0; j < 7; j++) {
-						gear[2][j] = gear[2][j + 1];
-					}
-					gear[2][7] = temp;
-
-					if (gear[2][5] != gear[1][2]) {
-						temp = gear[1][7];
-						for (int j = 7; j > 0; j--) {
-							gear[1][j] = gear[1][j - 1];
-						}
-						gear[1][0] = temp;
-
-						if (gear[1][7] != gear[0][2]) {
-							temp = gear[0][0];
-							for (int j = 0; j < 7; j++) {
-								gear[0][j] = gear[0][j + 1];
-							}
-							gear[0][7] = temp;
+				rotate(1, 3);
+				if (result[2] == 1) {
+					rotate(-1, 2);
+					if (result[1] == 1) {
+						rotate(1, 1);
+						if (result[0] == 1) {
+							rotate(-1, 0);
 						}
 					}
 				}
 			}
-			if (way == -1) {
-				temp = gear[3][0];
-				for (int j = 0; j < 7; j++) {
-					gear[3][j] = gear[3][j + 1];
-				}
-				gear[3][7] = temp;
-
-				if (gear[3][5] != gear[2][2]) {
-					temp = gear[2][7];
-					for (int j = 7; j > 0; j--) {
-						gear[2][j] = gear[2][j - 1];
-					}
-					gear[2][0] = temp;
-
-					if (gear[2][7] != gear[1][2]) {
-						temp = gear[1][0];
-						for (int j = 0; j < 7; j++) {
-							gear[1][j] = gear[1][j + 1];
-						}
-						gear[1][7] = temp;
-
-						if (gear[1][5] != gear[0][2]) {
-							temp = gear[0][7];
-							for (int j = 7; j > 0; j--) {
-								gear[0][j] = gear[0][j - 1];
-							}
-							gear[0][0] = temp;
+			else {
+				rotate(-1, 3);
+				if (result[2] == 1) {
+					rotate(1, 2);
+					if (result[1] == 1) {
+						rotate(-1, 1);
+						if (result[0] == 1) {
+							rotate(1, 0);
 						}
 					}
 				}
