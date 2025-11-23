@@ -9,7 +9,7 @@ int maze[MAX][MAX];
 int visited[MAX][MAX];
 int dist[MAX][MAX];
 
-int dx[4] = { 1, -1, 0, 0 };
+int dx[4] = { 1,-1,0,0 };
 int dy[4] = { 0,0,1,-1 };
 
 typedef struct {
@@ -60,11 +60,11 @@ int main() {
 
 			visited[nx][ny] = 1;
 			dist[nx][ny] = dist[x][y] + 1;
-
 			push(nx, ny);
 		}
 	}
-	printf("%d\n", dist[N - 1][M - 1]);
+
+	printf("%d", dist[N - 1][M - 1]);
 
 	return 0;
 }
