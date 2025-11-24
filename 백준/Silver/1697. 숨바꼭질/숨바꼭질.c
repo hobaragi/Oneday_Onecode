@@ -35,17 +35,12 @@ int main()
 
 	scanf("%d %d", &N, &K);
 
-	if (N == K) {
-		printf("0");
-		return 0;
-	}
-	else if (N > K) {
+	if (N >= K) {
 		printf("%d", N - K);
 		return 0;
 	}
 
 	visited[N] = 1;
-
 	push(N, 0);
 
 	while (!isEmpty()) {
@@ -55,7 +50,8 @@ int main()
 		int nx, nextTime = time + 1;;
 
 		if (x == K) {
-			cnt[i++] = time;
+			printf("%d\n", time);
+			return 0;
 		}
 
 		nx = x - 1;
@@ -76,13 +72,5 @@ int main()
 			visited[nx] = 1;
 		}
 	}
-
-	for (int j = 0; j < i; j++) {
-		if (min > cnt[j])
-			min = cnt[j];
-	}
-
-	printf("%d", min);
-
 	return 0;
 }
