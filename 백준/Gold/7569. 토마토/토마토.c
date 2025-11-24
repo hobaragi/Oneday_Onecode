@@ -4,26 +4,26 @@
 
 #define MAX 101
 
-int N, M, H;
+int H, N, M;
 int maze[MAX][MAX][MAX];
 int visited[MAX][MAX][MAX];
 int dist[MAX][MAX][MAX];
 
+int dz[6] = { 1,-1,0,0,0,0 };
 int dx[6] = { 0,0,1,-1,0,0 };
 int dy[6] = { 0,0,0,0,1,-1 };
-int dz[6] = { 1,-1,0,0,0,0 };
 
 typedef struct {
-	int x, y, z;
+	int z, x, y;
 }Node;
 
 Node queue[MAX * MAX * MAX];
 int front = 0, rear = 0;
 
 void push(int z, int x, int y) {
+	queue[rear].z = z;
 	queue[rear].x = x;
 	queue[rear].y = y;
-	queue[rear].z = z;
 	rear++;
 }
 
@@ -45,10 +45,11 @@ int main()
 		for (int j = 0; j < N; j++) {
 			for (int k = 0; k < M; k++) {
 				scanf("%d", &maze[i][j][k]);
+
 				if (maze[i][j][k] == 1) {
 					push(i, j, k);
-					dist[i][j][k] = 0;
 					visited[i][j][k] = 1;
+					dist[i][j][k] = 0;
 				}
 				else if (maze[i][j][k] == 0)
 					cnt++;
@@ -63,16 +64,16 @@ int main()
 
 	while (!isEmpty()) {
 		Node cur = pop();
+		int z = cur.z;
 		int x = cur.x;
 		int y = cur.y;
-		int z = cur.z;
 
 		for (int i = 0; i < 6; i++) {
+			int nz = z + dz[i];
 			int nx = x + dx[i];
 			int ny = y + dy[i];
-			int nz = z + dz[i];
 
-			if (nx < 0 || ny < 0 || nz < 0 || nx >= N || ny >= M || nz >= H) continue;
+			if (nz < 0 || nx < 0 || ny < 0 || nz >= H || nx >= N || ny >= M) continue;
 			if (maze[nz][nx][ny] != 0 || visited[nz][nx][ny]) continue;
 
 			visited[nz][nx][ny] = 1;
@@ -81,15 +82,19 @@ int main()
 		}
 	}
 
+	cnt = 0;
+
 	for (int i = 0; i < H; i++) {
 		for (int j = 0; j < N; j++) {
 			for (int k = 0; k < M; k++) {
-				if (visited[i][j][k] != 1 && maze[i][j][k] == 0) {
+				if (max < dist[i][j][k])
+					max = dist[i][j][k];
+
+				if (maze[i][j][k] == 0 && visited[i][j][k] == 0) {
 					printf("-1");
 					return 0;
 				}
-				if (max < dist[i][j][k])
-					max = dist[i][j][k];
+
 			}
 		}
 	}
@@ -97,4 +102,5 @@ int main()
 	printf("%d", max);
 
 	return 0;
+
 }
