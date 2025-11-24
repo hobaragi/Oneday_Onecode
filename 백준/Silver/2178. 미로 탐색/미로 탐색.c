@@ -1,7 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
-
 #define MAX 101
 
 int N, M;
@@ -33,7 +31,8 @@ int isEmpty() {
 	return front == rear;
 }
 
-int main() {
+int main()
+{
 	scanf("%d %d", &N, &M);
 
 	for (int i = 0; i < N; i++) {
@@ -63,7 +62,7 @@ int main() {
 			push(nx, ny);
 		}
 	}
-
+	
 	printf("%d", dist[N - 1][M - 1]);
 
 	return 0;
