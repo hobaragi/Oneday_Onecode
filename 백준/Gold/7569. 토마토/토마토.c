@@ -2,11 +2,10 @@
 
 #include <stdio.h>
 
-#define MAX 101
+#define MAX 100
 
 int H, N, M;
 int maze[MAX][MAX][MAX];
-int visited[MAX][MAX][MAX];
 int dist[MAX][MAX][MAX];
 
 int dz[6] = { 1,-1,0,0,0,0 };
@@ -48,7 +47,6 @@ int main()
 
 				if (maze[i][j][k] == 1) {
 					push(i, j, k);
-					visited[i][j][k] = 1;
 					dist[i][j][k] = 0;
 				}
 				else if (maze[i][j][k] == 0)
@@ -74,9 +72,9 @@ int main()
 			int ny = y + dy[i];
 
 			if (nz < 0 || nx < 0 || ny < 0 || nz >= H || nx >= N || ny >= M) continue;
-			if (maze[nz][nx][ny] != 0 || visited[nz][nx][ny]) continue;
+			if (maze[nz][nx][ny] != 0) continue;
 
-			visited[nz][nx][ny] = 1;
+			maze[nz][nx][ny] = 1;
 			dist[nz][nx][ny] = dist[z][x][y] + 1;
 			push(nz, nx, ny);
 		}
@@ -90,7 +88,7 @@ int main()
 				if (max < dist[i][j][k])
 					max = dist[i][j][k];
 
-				if (maze[i][j][k] == 0 && visited[i][j][k] == 0) {
+				if (maze[i][j][k] == 0) {
 					printf("-1");
 					return 0;
 				}
