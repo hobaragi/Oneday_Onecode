@@ -2,7 +2,7 @@
 #include <stdio.h>
 #define MAX 100
 
-int M, N;
+int M, N, K;
 int map[MAX][MAX];
 int visited[MAX][MAX];
 
@@ -10,29 +10,30 @@ int dx[4] = { 0,0,1,-1 };
 int dy[4] = { 1,-1,0,0 };
 
 int dfs(int y, int x) {
+	int cnt = 1;
+
 	visited[y][x] = 1;
-	int area = 1;
 
 	for (int i = 0; i < 4; i++) {
-		int ny = y + dy[i];
 		int nx = x + dx[i];
+		int ny = y + dy[i];
 
-		if (ny < 0 || nx < 0 || ny >= M || nx >= N) continue;
+		if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
 		if (map[ny][nx] == 1 || visited[ny][nx]) continue;
 
-		area += dfs(ny, nx);
+		cnt += dfs(ny, nx);
 	}
 
-	return area;
+	return cnt;
 }
 
-void sort(int arr[], int n) {
+void sort(int Count[], int n) {
 	for (int i = 0; i < n - 1; i++) {
 		for (int j = i + 1; j < n; j++) {
-			if (arr[i] > arr[j]) {
-				int temp = arr[i];
-				arr[i] = arr[j];
-				arr[j] = temp;
+			if (Count[i] > Count[j]) {
+				int temp = Count[i];
+				Count[i] = Count[j];
+				Count[j] = temp;
 			}
 		}
 	}
@@ -40,47 +41,47 @@ void sort(int arr[], int n) {
 
 int main()
 {
-	int K;
-
+	// M=y, N=x
 	scanf("%d %d %d", &M, &N, &K);
 
+	// 초기화
 	for (int i = 0; i < M; i++) {
 		for (int j = 0; j < N; j++) {
 			map[i][j] = 0;
+			visited[i][j] = 0;
 		}
 	}
 
-	// 직사각형 눈금 좌표를 1로
 	for (int i = 0; i < K; i++) {
-		int x1, y1, x2, y2;
-
+		int x1, x2, y1, y2;
 		scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
 
-		for (int y = y1; y < y2; y++) {
-			for (int x = x1; x < x2; x++) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
 				map[y][x] = 1;
 			}
 		}
 	}
-    
-	int areas[MAX * MAX];
-	int areaCount = 0;
+
+	int Count[MAX * MAX];
+	int cnt = 0;
 
 	for (int i = 0; i < M; i++) {
 		for (int j = 0; j < N; j++) {
 			if (map[i][j] == 0 && !visited[i][j]) {
 				int a = dfs(i, j);
-				areas[areaCount++] = a;
+				Count[cnt++] = a;
 			}
 		}
 	}
 
-	sort(areas, areaCount);
+	sort(Count, cnt);
 
-	printf("%d\n", areaCount);
-	for (int i = 0; i < areaCount; i++) {
-		printf("%d ", areas[i]);
+	printf("%d\n", cnt);
+
+	for (int i = 0; i < cnt; i++) {
+		printf("%d ", Count[i]);
 	}
-	
+
 	return 0;
 }
