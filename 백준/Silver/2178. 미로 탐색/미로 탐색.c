@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#define MAX 101
+#define MAX 100
 
 int N, M;
 int maze[MAX][MAX];
@@ -62,8 +62,7 @@ int main()
 			push(nx, ny);
 		}
 	}
-	
-	printf("%d", dist[N - 1][M - 1]);
 
+	printf("%d", dist[N - 1][M - 1]);
 	return 0;
 }
