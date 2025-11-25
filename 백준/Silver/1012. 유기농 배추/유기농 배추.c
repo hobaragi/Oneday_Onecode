@@ -1,62 +1,59 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#define MAX 50
 
-int M, N;
-int maze[MAX][MAX];
-int visited[MAX][MAX];
+int M, N, K;
+int map[50][50];
+int visited[50][50];
 
-int dy[4] = { 1,-1,0,0 };
 int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
 
-void dfs(int i, int j) {
-	visited[i][j] = 1;
+void dfs(int y, int x) {
+	visited[y][x] = 1;
 
-	for (int cmmd = 0; cmmd < 4; cmmd++) {
-		int ny = i + dy[cmmd];
-		int nx = j + dx[cmmd];
+	for (int i = 0; i < 4; i++) {
+		int nx = x + dx[i];
+		int ny = y + dy[i];
 
-		if (ny < 0 || nx < 0 || ny >= N || nx >= M) continue;
-		if (maze[ny][nx] == 0 || visited[ny][nx] == 1) continue;
+		if (nx < 0 || ny < 0 || nx >= M || ny >= N) continue;
+		if (map[ny][nx] == 0 || visited[ny][nx]) continue;
 
 		dfs(ny, nx);
 	}
-
 }
 
 int main()
 {
-	int T, K, cnt;
+	int T, cnt;
 
 	scanf("%d", &T);
 
-	for (int cmd = 0; cmd < T; cmd++) {
-		scanf("%d %d %d", &M, &N, &K);
+	for (int i = 0; i < T; i++) {
 
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				maze[i][j] = 0;
-				visited[i][j] = 0;
+		for (int j = 0; j < 50; j++) {
+			for (int k = 0; k < 50; k++) {
+				map[j][k] = 0;
+				visited[j][k] = 0;
+				cnt = 0;
 			}
 		}
 
-		cnt = 0;
+		scanf("%d %d %d", &M, &N, &K);
 
-		for (int cmd2 = 0; cmd2 < K; cmd2++) {
-			int X, Y;
-			scanf("%d %d", &X, &Y);
-			maze[Y][X] = 1;
+		for (int j = 0; j < K; j++) {
+			int x, y;
+			scanf("%d %d", &x, &y);
+			map[y][x] = 1;
 		}
 
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				if (maze[i][j] == 1 && !visited[i][j]) {
-					dfs(i, j);
+		for (int j = 0; j < N; j++) {
+			for (int k = 0; k < M; k++) {
+				if (map[j][k] == 1 && !visited[j][k]) {
+					dfs(j, k);
 					cnt++;
 				}
 			}
 		}
-
 		printf("%d\n", cnt);
 	}
 
