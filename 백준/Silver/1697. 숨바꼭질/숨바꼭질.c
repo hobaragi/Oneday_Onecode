@@ -1,22 +1,18 @@
 #define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
-
 #define MAX 100001
 
-int N, K;
-int visited[MAX];
+int dist[MAX] = { 0 };
 
 typedef struct {
-	int x, time;
+	int x;
 }Node;
 
 Node queue[MAX];
 int front = 0, rear = 0;
 
-void push(int x, int time) {
+void push(int x) {
 	queue[rear].x = x;
-	queue[rear].time = time;
 	rear++;
 }
 
@@ -30,47 +26,42 @@ int isEmpty() {
 
 int main()
 {
-	int i = 0, min = MAX;
-	int cnt[MAX];
+	int N, K;
 
 	scanf("%d %d", &N, &K);
 
+	// 동생이 수빈이보다 왼쪽에 있을 경우
 	if (N >= K) {
 		printf("%d", N - K);
 		return 0;
 	}
 
-	visited[N] = 1;
-	push(N, 0);
+	dist[N] = 1;
+	push(N);
 
 	while (!isEmpty()) {
 		Node cur = pop();
-		int x = cur.x;
-		int time = cur.time;
-		int nx, nextTime = time + 1;;
+		int X = cur.x;
 
-		if (x == K) {
-			printf("%d\n", time);
+		// 수빈이 위치에 도착할 경우
+		if (X == K) {
+			printf("%d", dist[K] - 1);
 			return 0;
 		}
 
-		nx = x - 1;
-		if (0 <= nx && !visited[nx]) {
-			push(nx, nextTime);
-			visited[nx] = 1;
+		if (2 * X < MAX && dist[2*X] == 0) {
+			dist[2 * X] = dist[X] + 1;
+			push(2 * X);
 		}
-
-		nx = x + 1;
-		if (nx < MAX && !visited[nx]) {
-			push(nx, nextTime);
-			visited[nx] = 1;
+		if (X + 1 < MAX && dist[X+1] == 0) {
+			dist[X+1] = dist[X] + 1;
+			push(X + 1);
 		}
-
-		nx = 2 * x;
-		if (nx < MAX && !visited[nx]) {
-			push(nx, nextTime);
-			visited[nx] = 1;
+		if (X - 1 >= 0 && dist[X-1] == 0) {
+			dist[X-1] = dist[X] + 1;
+			push(X - 1);
 		}
 	}
+
 	return 0;
 }
