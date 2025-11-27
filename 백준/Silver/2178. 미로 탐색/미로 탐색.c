@@ -6,17 +6,17 @@ int N, M;
 int maze[MAX][MAX];
 int dist[MAX][MAX];
 
-int dx[4] = { 0,0,1,-1 };
 int dy[4] = { 1,-1,0,0 };
+int dx[4] = { 0,0,1,-1 };
 
 typedef struct {
-	int x, y;
+	int y, x;
 }Node;
 
 Node queue[MAX * MAX];
 int front = 0, rear = 0;
 
-void push(int y, int  x) {
+void push(int y, int x) {
 	queue[rear].y = y;
 	queue[rear].x = x;
 	rear++;
@@ -32,14 +32,12 @@ int isEmpty() {
 
 int main()
 {
-	// 크기 입력
 	scanf("%d %d", &N, &M);
 
-	// 미로 입력 & 이동 칸 리셋
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			dist[i][j] = -1;
 			scanf("%1d", &maze[i][j]);
+			dist[i][j] = -1;
 		}
 	}
 
