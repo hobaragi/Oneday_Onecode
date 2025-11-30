@@ -3,31 +3,15 @@
 
 int main()
 {
-	int x1, x2, x3, y1, y2, y3;
+	int x = 0, y = 0, x1, y1;
 
-	scanf("%d %d", &x1, &y1);
-	scanf("%d %d", &x2, &y2);
-	scanf("%d %d", &x3, &y3);
-
-	if (x1 == x2) {
-		printf("%d ", x3);
-	}
-	else if (x1 == x3) {
-		printf("%d ", x2);
-	}
-	else {
-		printf("%d ", x1);
+	for (int i = 0; i < 3; i++) {
+		scanf("%d %d", &x1, &y1);
+		x ^= x1;
+		y ^= y1;
 	}
 
-	if (y1 == y2) {
-		printf("%d", y3);
-	}
-	else if (y1 == y3) {
-		printf("%d", y2);
-	}
-	else {
-		printf("%d", y1);
-	}
+	printf("%d %d", x, y);
 
 	return 0;
 }
