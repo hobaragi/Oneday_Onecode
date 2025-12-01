@@ -3,25 +3,12 @@
 
 int main()
 {
-	int n[3], cnt = 0, total = 0;
+	int a, b, c;
+	scanf("%d %d %d", &a, &b, &c);
 
-	for (int i = 0; i < 3; i++) scanf("%d", &n[i]);
-
-	for (int i = 0; i < 3; i++) {
-		int d = (i + 1) % 3;
-		
-		total += n[i];
-
-		if (n[i] == n[d]) cnt++;
-	}
-
-	if (total != 180) {
-		printf("Error");
-		return 0;
-	}
-
-	if (cnt == 3) printf("Equilateral");
-	else if (cnt == 1) printf("Isosceles");
+	if (a + b + c != 180) printf("Error");
+	else if (a == b && b == c) printf("Equilateral");
+	else if (a == b || b == c || c == a) printf("Isosceles");
 	else printf("Scalene");
 
 	return 0;
