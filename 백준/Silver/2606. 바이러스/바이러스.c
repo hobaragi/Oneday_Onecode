@@ -6,11 +6,11 @@ int graph[MAX][MAX];
 int visited[MAX];
 int N, M, cnt = 0;
 
-void dfs(int n) {
-	visited[n] = 1;
+void dfs(int v) {
+	visited[v] = 1;
 
 	for (int i = 1; i <= N; i++) {
-		if (graph[n][i] == 1 && visited[i] != 1) {
+		if (graph[v][i] == 1 && visited[i] != 1) {
 			cnt++;
 			dfs(i);
 		}
