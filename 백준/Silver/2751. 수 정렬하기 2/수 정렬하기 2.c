@@ -5,16 +5,16 @@
 int arr[MAX];
 int temp[MAX];
 
-void merge(int left, int mid, int right) {
+merge(int left, int mid, int right) {
 	int i = left;
 	int j = mid + 1;
 	int k = left;
 
 	while (i <= mid && j <= right) {
-		if (arr[i] <= arr[j])
-			temp[k++] = arr[i++];
-		else
+		if (arr[i] >= arr[j])
 			temp[k++] = arr[j++];
+		else
+			temp[k++] = arr[i++];
 	}
 
 	while (i <= mid)
@@ -23,11 +23,12 @@ void merge(int left, int mid, int right) {
 	while (j <= right)
 		temp[k++] = arr[j++];
 
-	for (int t = left; t <= right; t++)
+	for (int t = left; t <= right; t++) {
 		arr[t] = temp[t];
+	}
 }
 
-void mergeSort(int left, int right) {
+mergeSort(int left, int right) {
 	if (left >= right) return;
 
 	int mid = (left + right) / 2;
