@@ -2,33 +2,33 @@
 #include <stdio.h>
 #define MAX 1000000
 
-int arr[MAX];
+int num[MAX];
 int temp[MAX];
+int N;
 
-merge(int left, int mid, int right) {
+void merge(int left, int mid, int right) {
 	int i = left;
 	int j = mid + 1;
 	int k = left;
 
 	while (i <= mid && j <= right) {
-		if (arr[i] >= arr[j])
-			temp[k++] = arr[j++];
+		if (num[i] >= num[j])
+			temp[k++] = num[j++];
 		else
-			temp[k++] = arr[i++];
+			temp[k++] = num[i++];
 	}
 
 	while (i <= mid)
-		temp[k++] = arr[i++];
+		temp[k++] = num[i++];
 
 	while (j <= right)
-		temp[k++] = arr[j++];
+		temp[k++] = num[j++];
 
-	for (int t = left; t <= right; t++) {
-		arr[t] = temp[t];
-	}
+	for (int t = left; t <= right; t++)
+		num[t] = temp[t];
 }
 
-mergeSort(int left, int right) {
+void mergeSort(int left, int right) {
 	if (left >= right) return;
 
 	int mid = (left + right) / 2;
@@ -40,18 +40,16 @@ mergeSort(int left, int right) {
 
 int main()
 {
-	int N;
-
 	scanf("%d", &N);
 
 	for (int i = 0; i < N; i++) {
-		scanf("%d", &arr[i]);
+		scanf("%d", &num[i]);
 	}
 
 	mergeSort(0, N - 1);
 
 	for (int i = 0; i < N; i++) {
-		printf("%d\n", arr[i]);
+		printf("%d\n", num[i]);
 	}
 
 	return 0;
