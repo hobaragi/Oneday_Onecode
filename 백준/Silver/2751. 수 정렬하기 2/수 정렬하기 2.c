@@ -2,8 +2,8 @@
 #include <stdio.h>
 #define MAX 1000000
 
-int num[MAX];
-int temp[MAX];
+int arr[MAX];
+int tmp[MAX];
 int N;
 
 void merge(int left, int mid, int right) {
@@ -12,20 +12,20 @@ void merge(int left, int mid, int right) {
 	int k = left;
 
 	while (i <= mid && j <= right) {
-		if (num[i] >= num[j])
-			temp[k++] = num[j++];
+		if (arr[i] > arr[j])
+			tmp[k++] = arr[j++];
 		else
-			temp[k++] = num[i++];
+			tmp[k++] = arr[i++];
 	}
 
 	while (i <= mid)
-		temp[k++] = num[i++];
+		tmp[k++] = arr[i++];
 
 	while (j <= right)
-		temp[k++] = num[j++];
+		tmp[k++] = arr[j++];
 
 	for (int t = left; t <= right; t++)
-		num[t] = temp[t];
+		arr[t] = tmp[t];
 }
 
 void mergeSort(int left, int right) {
@@ -42,15 +42,11 @@ int main()
 {
 	scanf("%d", &N);
 
-	for (int i = 0; i < N; i++) {
-		scanf("%d", &num[i]);
-	}
+	for (int i = 0; i < N; i++) scanf("%d", &arr[i]);
 
 	mergeSort(0, N - 1);
 
-	for (int i = 0; i < N; i++) {
-		printf("%d\n", num[i]);
-	}
+	for (int i = 0; i < N; i++) printf("%d\n", arr[i]);
 
 	return 0;
 }
