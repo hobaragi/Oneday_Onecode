@@ -5,7 +5,7 @@
 int map[MAX][MAX] = { 0 };
 int visited[MAX][MAX] = { 0 };
 int M, N, K, cnt = 0;
-int Count[MAX * MAX];
+int Count[MAX];
 
 int dx[4] = { 0,0,1,-1 };
 int dy[4] = { 1,-1,0,0 };
@@ -29,10 +29,12 @@ int dfs(int y, int x) {
 
 int main()
 {
+	// M=y, N=x
 	scanf("%d %d %d", &M, &N, &K);
 
 	for (int i = 0; i < K; i++) {
 		int x1, x2, y1, y2;
+
 		scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
 
 		for (int y = y1; y < y2; y++) {
@@ -51,21 +53,20 @@ int main()
 		}
 	}
 
-	for (int i = 0; i < cnt - 1; i++) {
+	printf("%d\n", cnt);
+
+	for (int i = 0; i < cnt-1; i++) {
 		for (int j = i + 1; j < cnt; j++) {
 			if (Count[i] > Count[j]) {
-				int temp = Count[i];
+				int tmp = Count[i];
 				Count[i] = Count[j];
-				Count[j] = temp;
+				Count[j] = tmp;
 			}
 		}
 	}
 
-	printf("%d\n", cnt);
-
-	for (int i = 0; i < cnt; i++) {
+	for (int i = 0; i < cnt; i++)
 		printf("%d ", Count[i]);
-	}
 
 	return 0;
 }
